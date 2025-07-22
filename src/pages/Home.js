@@ -29,13 +29,13 @@ const Home = () => {
 
         {/* Heading */}
         <div className='text-center text-4xl font-semibold mt-7'>
-          Empower Your Future with
+        Empowering KIITians with Future-Ready
           <HighlightText text={"Coding Skills"} />
         </div>
 
         {/* Intro */}
         <div className='mt-4 w-[90%] text-center text-lg font-bold text-richblack-300'>
-          With our online coding courses, you can learn at your own pace, from anywhere in the world, and get access to a wealth of resources, including hands-on projects, quizzes, and personalized feedback from instructors.
+        Learn to code at your own pace, anytime and anywhere, with access to hands-on projects, quizzes, and expert feedback to support your growth.
         </div>
 
         {/* Buttons */}
@@ -68,9 +68,11 @@ const Home = () => {
           position={"lg:flex-row"}
           heading={
             <div className='text-4xl font-semibold'>
-              Unlock your
-              <HighlightText text={"coding potential "} />
-              with our online courses.
+              From Campus to Code:
+             
+              Elevate Your Potential at 
+
+              <HighlightText text={"CampusHive"} />
             </div>
           }
           subheading={
