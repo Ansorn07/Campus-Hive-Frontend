@@ -20,7 +20,7 @@ const ContactPage = () => {
         {
             title:"Call us",
             desc:"Mon - Fri From 8am to 5pm",
-            address:"+123 456 7869"
+            address:"7735555212"
         },
     ]
   return (
