@@ -15,7 +15,7 @@ const ContactPage = () => {
         {
             title:"Visit us",
             desc:"Come and say hello at our office HQ.",
-            address:"Akshya Nagar 1st Block 1st Cross, Rammurthy nagar, Bangalore-560016"
+            address:"Akshya Nagar 1st Block 1st Cross, Rammurthy nagar, Bhubaneswar-751020"
         },
         {
             title:"Call us",
