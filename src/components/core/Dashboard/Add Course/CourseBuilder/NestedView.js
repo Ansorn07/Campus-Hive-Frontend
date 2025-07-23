@@ -25,11 +25,7 @@ const NestedView = ({ handleChangeEditSectionName }) => {
   const [confirmationModal, setConfirmationModal] = useState(null)
 
   const handleDeleteSection = async (sectionId) => {
-    const result = await deleteSection({
-      sectionId,
-      courseId: course._id,
-      token,
-    })
+    const result = await deleteSection({ sectionId, courseId: course._id, token })
     if (result) {
       dispatch(setCourse(result))
     }
@@ -50,28 +46,22 @@ const NestedView = ({ handleChangeEditSectionName }) => {
 
   return (
     <>
-      <div className="rounded-lg bg-richblack-700 p-6 px-8" id="nestedViewContainer">
-        {course?.courseContent?.length === 0 ? (
-          <p className="text-richblack-300 text-sm">
-            No sections added yet. Click "Next" to add a section.
-          </p>
-        ) : (
+      <div className="rounded-lg bg-richblack-700 p-6 px-8 space-y-4 max-h-[500px] overflow-y-auto">
+        {Array.isArray(course?.courseContent) && course.courseContent.length > 0 ? (
           course.courseContent.map((section) => (
-            <details key={section._id} open>
-              <summary className="flex cursor-pointer items-center justify-between border-b-2 border-b-richblack-600 py-2">
+            <details key={section._id} open className="border border-richblack-600 rounded-md">
+              <summary className="flex cursor-pointer items-center justify-between bg-richblack-800 px-4 py-2 rounded-t-md hover:bg-richblack-900 transition">
                 <div className="flex items-center gap-x-3">
-                  <RxDropdownMenu className="text-2xl text-richblack-50" />
-                  <p className="font-semibold text-richblack-50">
-                    {section.sectionName}
-                  </p>
+                  <RxDropdownMenu className="text-2xl text-yellow-100" />
+                  <p className="font-semibold text-richblack-5">{section.sectionName}</p>
                 </div>
-                <div className="flex items-center gap-x-3">
+                <div className="flex items-center gap-x-3 text-richblack-300">
                   <button
                     onClick={() =>
                       handleChangeEditSectionName(section._id, section.sectionName)
                     }
                   >
-                    <MdEdit className="text-xl text-richblack-300" />
+                    <MdEdit className="text-xl" />
                   </button>
                   <button
                     onClick={() =>
@@ -85,90 +75,96 @@ const NestedView = ({ handleChangeEditSectionName }) => {
                       })
                     }
                   >
-                    <RiDeleteBin6Line className="text-xl text-richblack-300" />
+                    <RiDeleteBin6Line className="text-xl" />
                   </button>
-                  <span className="font-medium text-richblack-300">|</span>
-                  <AiFillCaretDown className="text-xl text-richblack-300" />
+                  <AiFillCaretDown className="text-xl" />
                 </div>
               </summary>
 
-              <div className="px-6 pb-4">
-                {section.subSection.map((data) => (
-                  <div
-                    key={data?._id}
-                    onClick={() => setViewSubSection(data)}
-                    className="flex cursor-pointer items-center justify-between gap-x-3 border-b-2 border-b-richblack-600 py-2"
-                  >
-                    <div className="flex items-center gap-x-3 py-2">
-                      <RxDropdownMenu className="text-2xl text-richblack-50" />
-                      <p className="font-semibold text-richblack-50">{data.title}</p>
-                    </div>
+              <div className="bg-richblack-700 px-6 pb-4 space-y-2">
+                {Array.isArray(section.subSection) && section.subSection.length > 0 ? (
+                  section.subSection.map((data) => (
                     <div
-                      onClick={(e) => e.stopPropagation()}
-                      className="flex items-center gap-x-3"
+                      key={data._id}
+                      onClick={() => setViewSubSection(data)}
+                      className="flex items-center justify-between p-2 bg-richblack-800 rounded hover:bg-richblack-900 cursor-pointer transition"
                     >
-                      <button
-                        onClick={() =>
-                          setEditSubSection({ ...data, sectionId: section._id })
-                        }
+                      <div className="flex items-center gap-x-3">
+                        <RxDropdownMenu className="text-xl text-yellow-100" />
+                        <p className="text-richblack-5">{data.title}</p>
+                      </div>
+                      <div
+                        onClick={(e) => e.stopPropagation()}
+                        className="flex items-center gap-x-3 text-richblack-300"
                       >
-                        <MdEdit className="text-xl text-richblack-300" />
-                      </button>
-                      <button
-                        onClick={() =>
-                          setConfirmationModal({
-                            text1: "Delete this Sub-Section?",
-                            text2: "This lecture will be deleted",
-                            btn1Text: "Delete",
-                            btn2Text: "Cancel",
-                            btn1Handler: () =>
-                              handleDeleteSubSection(data._id, section._id),
-                            btn2Handler: () => setConfirmationModal(null),
-                          })
-                        }
-                      >
-                        <RiDeleteBin6Line className="text-xl text-richblack-300" />
-                      </button>
+                        <button
+                          onClick={() =>
+                            setEditSubSection({ ...data, sectionId: section._id })
+                          }
+                        >
+                          <MdEdit className="text-lg" />
+                        </button>
+                        <button
+                          onClick={() =>
+                            setConfirmationModal({
+                              text1: "Delete this Sub-Section?",
+                              text2: "This lecture will be deleted",
+                              btn1Text: "Delete",
+                              btn2Text: "Cancel",
+                              btn1Handler: () =>
+                                handleDeleteSubSection(data._id, section._id),
+                              btn2Handler: () => setConfirmationModal(null),
+                            })
+                          }
+                        >
+                          <RiDeleteBin6Line className="text-lg" />
+                        </button>
+                      </div>
                     </div>
-                  </div>
-                ))}
+                  ))
+                ) : (
+                  <p className="text-sm text-richblack-300">No lectures yet.</p>
+                )}
 
                 <button
                   onClick={() => setAddSubSection(section._id)}
-                  className="mt-3 flex items-center gap-x-1 text-yellow-50"
+                  className="mt-3 flex items-center gap-x-2 text-yellow-100 hover:underline"
                 >
-                  <FaPlus className="text-lg" />
-                  <p>Add Lecture</p>
+                  <FaPlus />
+                  <span>Add Lecture</span>
                 </button>
               </div>
             </details>
           ))
+        ) : (
+          <p className="text-sm text-richblack-300">
+            No sections added yet. Click "Next" to add a section.
+          </p>
         )}
       </div>
 
-      {addSubSection ? (
+      {addSubSection && (
         <SubSectionModal
           modalData={addSubSection}
           setModalData={setAddSubSection}
           add={true}
         />
-      ) : viewSubSection ? (
+      )}
+      {viewSubSection && (
         <SubSectionModal
           modalData={viewSubSection}
           setModalData={setViewSubSection}
           view={true}
         />
-      ) : editSubSection ? (
+      )}
+      {editSubSection && (
         <SubSectionModal
           modalData={editSubSection}
           setModalData={setEditSubSection}
           edit={true}
         />
-      ) : (
-        <></>
       )}
-
-      {confirmationModal ? <ConfirmationModal modalData={confirmationModal} /> : <></>}
+      {confirmationModal && <ConfirmationModal modalData={confirmationModal} />}
     </>
   )
 }
