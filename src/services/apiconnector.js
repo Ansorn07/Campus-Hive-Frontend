@@ -41,17 +41,37 @@
 //   }
 // };
 
+import axios from "axios";
 
-import axios from "axios"
+// ✅ Axios instance with cookie support
+export const axiosInstance = axios.create({
+  withCredentials: true, // Important for auth cookies
+  // baseURL: process.env.REACT_APP_BACKEND_URL, // Optional: uncomment if using
+});
 
-export const axiosInstance = axios.create({});
-
-export const apiConnector = (method, url, bodyData, headers, params) => {
-    return axiosInstance({
-        method:`${method}`,
-        url:`${url}`,
-        data: bodyData ? bodyData : null,
-        headers: headers ? headers: null,
-        params: params ? params : null,
+// ✅ Main API connector function
+export const apiConnector = async (
+  method,
+  url,
+  bodyData = {},
+  headers = {},
+  params = {}
+) => {
+  try {
+    const response = await axiosInstance({
+      method,
+      url,
+      data: Object.keys(bodyData).length ? bodyData : undefined,
+      headers: {
+        "Content-Type": "application/json",
+        ...headers,
+      },
+      params,
     });
-}
+
+    return response;
+  } catch (error) {
+    console.error("API Error:", error?.response?.data || error.message || error);
+    throw error;
+  }
+};
