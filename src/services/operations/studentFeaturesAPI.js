@@ -48,7 +48,8 @@ export const buyCourse = async (token, courses, userDetails, navigate, dispatch,
         console.log("Order Initialized, printing order response", orderResponse);
 
         const options = {
-            key: process.env.RAZORPAY_KEY,
+            key: process.env.REACT_APP_RAZORPAY_KEY || "rzp_test_4M7Zz1t9aYV9zK",
+
             currency: orderResponse.data.message.currency,
             amount: `${orderResponse.data.message.amount}`,
             order_id:orderResponse.data.message.id,
@@ -68,6 +69,8 @@ export const buyCourse = async (token, courses, userDetails, navigate, dispatch,
 
         // Open the modal using options, as order is initialized => payment will be done =>  Payment done mail => verificationPayment => course successfully enrolled mail sent
         const paymentObject = new window.Razorpay(options);
+        console.log("Using Razorpay Key:", process.env.REACT_APP_RAZORPAY_KEY);
+
         paymentObject.open();
         paymentObject.on("payment.failed", (response)=> {
             toast.error("oops, payment failed");
