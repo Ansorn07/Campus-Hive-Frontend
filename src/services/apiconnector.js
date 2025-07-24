@@ -41,17 +41,30 @@
 //   }
 // };
 
+import axios from "axios";
 
-import axios from "axios"
+// ✅ Create an Axios instance with cookie support
+export const axiosInstance = axios.create({
+  withCredentials: true, // Necessary for sending/receiving cookies (auth)
+  // baseURL: process.env.REACT_APP_BACKEND_URL, // Optional if you want to set base URL
+});
 
-export const axiosInstance = axios.create({});
-
-export const apiConnector = (method, url, bodyData, headers, params) => {
-    return axiosInstance({
-        method:`${method}`,
-        url:`${url}`,
-        data: bodyData ? bodyData : null,
-        headers: headers ? headers: null,
-        params: params ? params : null,
-    });
-}
+// ✅ Reusable API connector function
+export const apiConnector = (
+  method,
+  url,
+  bodyData = {},
+  headers = {},
+  params = {}
+) => {
+  return axiosInstance({
+    method,
+    url,
+    data: Object.keys(bodyData).length ? bodyData : undefined,
+    headers: {
+      "Content-Type": "application/json",
+      ...headers,
+    },
+    params,
+  });
+};
