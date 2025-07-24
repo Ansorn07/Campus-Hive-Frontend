@@ -44,8 +44,9 @@
 
 import axios from "axios"
 
-export const axiosInstance = axios.create({});
-
+export const axiosInstance = axios.create({
+    withCredentials: true, // ✅ Important for cross-origin cookies
+  });
 export const apiConnector = (method, url, bodyData, headers, params) => {
     return axiosInstance({
         method:`${method}`,
