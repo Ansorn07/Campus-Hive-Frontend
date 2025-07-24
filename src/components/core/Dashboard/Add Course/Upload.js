@@ -1,8 +1,7 @@
 import { useState } from "react";
 import { useDropzone } from "react-dropzone";
 import { FiUploadCloud } from "react-icons/fi";
-import { Player } from "video-react";
-import "video-react/dist/video-react.css";
+import ReactPlayer from "react-player";
 
 export default function Upload({
   name,
@@ -47,9 +46,13 @@ export default function Upload({
         {previewSource ? (
           <div className="flex w-full flex-col p-6">
             {video ? (
-              <Player aspectRatio="16:9" playsInline src={previewSource} />
+              <ReactPlayer url={previewSource} controls width="100%" height="auto" />
             ) : (
-              <img src={previewSource} alt="Preview" className="h-full w-full rounded-md object-cover" />
+              <img
+                src={previewSource}
+                alt="Preview"
+                className="h-full w-full rounded-md object-cover"
+              />
             )}
             <button
               type="button"
