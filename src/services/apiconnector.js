@@ -42,16 +42,23 @@
 // };
 
 
-import axios from "axios"
+import axios from "axios";
 
-export const axiosInstance = axios.create({});
+// ✅ Axios instance with cookie support
+export const axiosInstance = axios.create({
+  withCredentials: true, // Send cookies with requests
+});
 
-export const apiConnector = (method, url, bodyData, headers, params) => {
-    return axiosInstance({
-        method:`${method}`,
-        url:`${url}`,
-        data: bodyData ? bodyData : null,
-        headers: headers ? headers: null,
-        params: params ? params : null,
-    });
-}
+// ✅ Reusable API connector
+export const apiConnector = (method, url, bodyData = {}, headers = {}, params = {}) => {
+  return axiosInstance({
+    method,
+    url,
+    data: Object.keys(bodyData).length ? bodyData : undefined,
+    headers: {
+      "Content-Type": "application/json",
+      ...headers,
+    },
+    params,
+  });
+};
