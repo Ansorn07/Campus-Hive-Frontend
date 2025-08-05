@@ -7,6 +7,7 @@ CampusHive is a fully functional ed-tech platform built using the MERN stack, ai
 
 The frontend of CampusHive is the client-side part of the platform that students, instructors, and admins interact with. It provides an intuitive and responsive user interface designed using **Figma** and developed with **ReactJS**, **Tailwind CSS**, and **Redux** for state management.
 
+
 ---
 
 ## 🖼️ Pages Overview
