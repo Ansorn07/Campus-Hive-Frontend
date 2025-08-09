@@ -1,4 +1,7 @@
+# 🎓 CampusHive – Frontend
 
+CampusHive is a fully functional ed-tech platform built using the MERN stack, aimed at enabling users to create, consume, and rate educational content. This repository contains the **frontend** code of CampusHive.
+---
 
 ## 📌 Project Description
 
